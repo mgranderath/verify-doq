@@ -14,16 +14,36 @@ import (
 	"time"
 )
 
+const (
+	VersionDoQ00 = "doq-i00"
+	VersionDoQ01 = "doq-i01"
+	VersionDoQ02 = "doq-i02"
+	VersionDoQ03 = "doq-i03"
+	VersionDoQ04 = "doq-i04"
+	VersionDoQ05 = "doq-i05"
+	VersionDoQ06 = "doq-i06"
+)
+
+var DefaultDoQVersions = []string{VersionDoQ06, VersionDoQ05, VersionDoQ04, VersionDoQ03, VersionDoQ02, VersionDoQ01, VersionDoQ00}
+
+var DefaultQUICVersions = []quic.VersionNumber{
+	quic.Version1,
+	quic.VersionDraft34,
+	quic.VersionDraft32,
+	quic.VersionDraft29,
+}
+
 var port853Flag = flag.Bool("port853", false, "verify on port 853")
 
 func establishConnection(ip net.IP) bool {
 	tlsConf := &tls.Config{
 		InsecureSkipVerify: true,
-		NextProtos: []string{"doq-i00", "doq-i01", "doq-i02", "doq-i03", "doq"},
+		NextProtos: DefaultDoQVersions,
 	}
 
 	quicConf := &quic.Config{
 		HandshakeIdleTimeout: time.Second * 2,
+		Versions: DefaultQUICVersions,
 	}
 
 	var ports []string
