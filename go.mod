@@ -1,4 +1,4 @@
-module github.com/mgranderath/verify-quic
+module github.com/mgranderath/verify-doq
 
 go 1.16
 
